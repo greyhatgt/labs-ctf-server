@@ -23,5 +23,6 @@ class ReusableTCPServer(ForkingMixIn, TCPServer):
 
 if __name__ == '__main__':
   TCPServer.allow_reuse_address = True
-  server = ReusableTCPServer(("0.0.0.0", 8080), MessageHandler)
+  server = ReusableTCPServer(("0.0.0.0", 1000), MessageHandler)
+  print("Now listening on port 1000!")
   server.serve_forever()

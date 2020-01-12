@@ -6,7 +6,6 @@ class MainMenu():
 
   def handle(self, requestHandler):
     data = requestHandler.rfile.readline()[:-1].decode("utf-8")
-    print(data)
     args = data.split(" ")
     if args[0] == "login":
       password = ""
