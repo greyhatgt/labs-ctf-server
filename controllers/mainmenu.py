@@ -16,7 +16,8 @@ class MainMenu():
           "Login page (not secure)\n"
           + "> Enter your password.\n"
         )
-        password = requestHandler.rfile.readline()[:-1]
+        password = requestHandler.rfile.readline()[:-1].decode("utf-8")
+        print(password)
       with open('players.json') as json_file:
           players = json.load(json_file)
           if password in players:
