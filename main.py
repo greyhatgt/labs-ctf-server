@@ -1,12 +1,12 @@
-from socketserver import TCPServer, StreamRequestHandler, ForkingMixIn
+from socketserver import ForkingTCPServer, StreamRequestHandler, ForkingMixIn
 from controllers import *
 
 class MessageHandler(StreamRequestHandler):
 
   def handle(self):
     self.writeString(
-      "How to Hack Lab Server\n"
-      + "v1.0\n"
+      "GreyH@t Stepping into Security - Lab Server\n"
+      + "v1.0.1\n"
       + "------------------\n"
       + "Available commands: [login, register, info, help, clear, quit]\n"
       )
@@ -18,11 +18,10 @@ class MessageHandler(StreamRequestHandler):
   def writeString(self, string):
     self.wfile.write(bytes(string, "utf-8"))
 
-class ReusableTCPServer(ForkingMixIn, TCPServer):
-    allow_reuse_address = True
-
 if __name__ == '__main__':
-  TCPServer.allow_reuse_address = True
-  server = ReusableTCPServer(("0.0.0.0", 1000), MessageHandler)
+  server = ForkingTCPServer(("0.0.0.0", 1000), RequestHandlerClass=MessageHandler, bind_and_activate=False)
+  server.allow_reuse_address = True
+  server.server_bind()
+  server.server_activate()
   print("Now listening on port 1000!")
   server.serve_forever()

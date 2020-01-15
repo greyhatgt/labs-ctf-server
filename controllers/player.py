@@ -95,7 +95,7 @@ class PlayerMenu():
           env = json.load(json_file)
           for i, player_name in enumerate(sorted_list):
             player = players[player_name]
-            if written < 5:
+            if written < 10:
               display_name = "<anonymous>"
               if player_name in env and "name" in env[player_name] and env[player_name] != "":
                 display_name = env[player_name]["name"]
