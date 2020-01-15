@@ -140,8 +140,9 @@ class PlayerMenu():
               real_key = "scoreboard"
               value = equals[1] == "1"
             if not user in players:
-              players[user] = {"name": None, "scoreboard": True}
-            players[user][real_key] = value
+              players[user] = {"name": "<anonymous>", "scoreboard": True}
+            if value != None:
+              players[user][real_key] = value
             requestHandler.writeString(
               args[1] + "\n"
             )
