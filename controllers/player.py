@@ -25,7 +25,10 @@ class PlayerMenu():
                 returnString = "No problems posted.\n"
               else:
                 for i, problem in enumerate(problems[week]["problems"]):
-                  returnString += str(i + 1) + ". " + problem["name"] + " (" + str(problem["points"]) + ")\n"
+                  if problem["points"] == 1000000: # 1 million points -> Boss problem
+                    returnString += str(i + 1) + ". " + problem["name"] + " (\xe2\x98\xa0)\n"
+                  else:
+                    returnString += str(i + 1) + ". " + problem["name"] + " (" + str(problem["points"]) + ")\n"
             requestHandler.writeString(
               "# Week " +  args[1] + "\n"
               + returnString
