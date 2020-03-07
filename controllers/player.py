@@ -155,7 +155,7 @@ class PlayerMenu():
     elif args[0] == "quit" or args[0] == 'q':
       return args[0]
     elif args[0] == "logout":
-      return
+      return args[0]
     elif args[0] == "help" or args[0] == 'h':
       requestHandler.writeString(
         "You are logged into the lab portal.\n"

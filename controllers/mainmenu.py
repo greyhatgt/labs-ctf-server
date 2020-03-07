@@ -25,7 +25,7 @@ class MainMenu():
             requestHandler.writeString("Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], env, logout, c[lear], q[uit]]\n")
             while True:
               command = controllers.player.PlayerMenu().handle(requestHandler, password)
-              if command == "quit" or command == 'q':
+              if command == "quit" or command == 'q' or command == "logout":
                 return command
           else:
             requestHandler.writeString("Invalid.\n")

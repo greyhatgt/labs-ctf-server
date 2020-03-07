@@ -14,6 +14,8 @@ class MessageHandler(StreamRequestHandler):
       last_command = mainmenu.MainMenu().handle(self)
       if last_command == "quit" or last_command == 'q':
         return
+      if last_command == "logout":
+        self.writeString("Ok. You are now logged out.\n")
 
   def writeString(self, string):
     self.wfile.write(bytes(string, "utf-8"))
