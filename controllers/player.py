@@ -7,7 +7,7 @@ class PlayerMenu():
   def handle(self, requestHandler, user):
     data = requestHandler.rfile.readline()[:-1].decode("utf-8")
     args = data.split(" ")
-    if args[0] == "problems":
+    if args[0] == "problems" or args[0] == 'p' or args[0] == "ls":
       if len(args) == 1:
         requestHandler.writeString(
           "Usage: problems [week] [id 1-12]\n"
@@ -51,9 +51,9 @@ class PlayerMenu():
               "# Week " +  args[1] + "\n"
               + returnString
             )
-    elif args[0] == "flag":
+    elif args[0] == "flag" or args[0] == 'f':
       if len(args) == 1:
-        requestHandler.writeString("Use this command to submit flags. Usage: flag [flag]")
+        requestHandler.writeString("Use this command to submit flags. Usage: f[lag] [flag]")
       else:
         with open('problems.json') as problems_file:
           with open('players.json') as players_file:
@@ -79,7 +79,7 @@ class PlayerMenu():
                     else:
                       requestHandler.writeString("You've already solved this one.\n")
 
-    elif args[0] == "scoreboard":
+    elif args[0] == "scoreboard" or args[0] == "score":
       requestHandler.writeString(
           "================\n"
         + "   Scoreboard\n"
@@ -148,16 +148,16 @@ class PlayerMenu():
             )
             with open('env.json', 'w') as outfile:
                 json.dump(players, outfile)
-    elif args[0] == "clear":
+    elif args[0] == "clear" or args[0] == 'c':
       requestHandler.writeString(
         "\n"*100
       )
-    elif args[0] == "quit":
+    elif args[0] == "quit" or args[0] == 'q':
       return args[0]
     elif args[0] == "logout":
       return
-    elif args[0] == "help":
+    elif args[0] == "help" or args[0] == 'h':
       requestHandler.writeString(
         "You are logged into the lab portal.\n"
-          + "Available commands: [problems [week] [100, 200, 300], flag [flag], scoreboard, env, logout, clear, quit]\n"
+          + "Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], env, logout, c[lear], q[uit]]\n"
       )
