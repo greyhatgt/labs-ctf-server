@@ -7,7 +7,7 @@ class MainMenu():
   def handle(self, requestHandler):
     data = requestHandler.rfile.readline()[:-1].decode("utf-8")
     args = data.split(" ")
-    if args[0] == "login":
+    if args[0] == "login" or args[0] == 'l':
       password = ""
       if len(args) > 1:
         password = args[1]
@@ -22,14 +22,14 @@ class MainMenu():
           players = json.load(json_file)
           if password in players:
             requestHandler.writeString("Welcome back!\n")
-            requestHandler.writeString("Available commands: [problems [week] [100, 200, 300], flag [flag], scoreboard, env, logout, clear, quit]\n")
+            requestHandler.writeString("Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], env, logout, c[lear], q[uit]]\n")
             while True:
               command = controllers.player.PlayerMenu().handle(requestHandler, password)
-              if command == "quit":
-                return
+              if command == "quit" or command == 'q' or command == "logout":
+                return command
           else:
             requestHandler.writeString("Invalid.\n")
-    elif args[0] == "register":
+    elif args[0] == "register" or args[0] == 'r':
       requestHandler.writeString(
         "Register page (not secure)\n"
         + "> Enter a password to identify yourself with. This will also be your username, so make sure no one can guess it.\n"
@@ -47,19 +47,19 @@ class MainMenu():
         "Welcome! Your password is: `" + password + "`. Make sure you keep this secret!\n"
         + "Now, you need to login.\n"
       )
-    elif args[0] == "info":
+    elif args[0] == "info" or args[0] == 'i':
       requestHandler.writeString(
         "Lab CTF for Georgia Tech Greyhat How to Hack Seminar 2020\n"
         + "https://gthowtohack.github.io/\n"
       )
-    elif args[0] == "clear":
+    elif args[0] == "clear" or args[0] == 'c':
       requestHandler.writeString(
         "\n"*100
       )
-    elif args[0] == "quit":
+    elif args[0] == "quit" or args[0] == 'q':
       return data
-    elif args[0] == "help":
+    elif args[0] == "help" or args[0] == 'h':
       requestHandler.writeString(
         "Login or register to access lab features.\n"
-        + "Available commands: [login, register, info, help, clear, quit]\n"
+        + "Available commands: [l[ogin], r[egister], i[nfo], h[elp], c[lear], q[uit]]\n"
       )

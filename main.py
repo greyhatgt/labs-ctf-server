@@ -8,12 +8,14 @@ class MessageHandler(StreamRequestHandler):
       "GreyH@t Stepping into Security - Lab Server\n"
       + "v1.0.1\n"
       + "------------------\n"
-      + "Available commands: [login, register, info, help, clear, quit]\n"
+      + "Available commands: [l[ogin], r[egister], i[nfo], h[elp], c[lear], q[uit]]\n"
       )
     while True:
       last_command = mainmenu.MainMenu().handle(self)
-      if last_command == "quit":
+      if last_command == "quit" or last_command == 'q':
         return
+      if last_command == "logout":
+        self.writeString("Ok. You are now logged out.\n")
 
   def writeString(self, string):
     self.wfile.write(bytes(string, "utf-8"))
