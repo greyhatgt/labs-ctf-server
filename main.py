@@ -6,7 +6,7 @@ class MessageHandler(StreamRequestHandler):
   def handle(self):
     self.writeString(
       "GreyH@t Stepping into Security - Lab Server\n"
-      + "v1.0.1\n"
+      + "v1.3\n"
       + "------------------\n"
       + "Available commands: [l[ogin], r[egister], i[nfo], h[elp], c[lear], q[uit]]\n"
       )
