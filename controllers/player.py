@@ -38,8 +38,8 @@ class PlayerMenu():
             else:
               key = args[2][0]
               key = int(key)
-              if key < 1 or key > 3:
-                returnString = "Question number out of bounds. Enter a problem from 1-3.\n"
+              if key < 1 or key > 4:
+                returnString = "Question number out of bounds. Enter a problem from 1-4.\n"
               else:
                 if len(problems) < week + 1 or len(problems[week]["problems"]) < key:
                   returnString = "This problem has not been posted for this week.\n"
