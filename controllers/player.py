@@ -63,24 +63,49 @@ class PlayerMenu():
             players = json.load(players_file)
             problems = json.load(problems_file)
             for week in problems:
-              for problem in week["problems"]:
-                if problem["flag"] == args[1]:
-                  with open('solves.json') as solves_file:
-                    solves = json.load(solves_file)
-                    if not week["name"] in solves:
-                      solves[week["name"]] = {}
-                    if not problem["name"] in solves[week["name"]]:
-                      solves[week["name"]][problem["name"]] = []
-                    if not user in solves[week["name"]][problem["name"]]:
-                      solves[week["name"]][problem["name"]].append(user)
-                      players[user]["points"] += problem["points"]
-                      with open('players.json', 'w') as players_out:
-                        with open('solves.json', 'w') as solves_out:
-                          json.dump(players, players_out)
-                          json.dump(solves, solves_out)
-                          requestHandler.writeString("Congratulations, you have solved '" + problem["name"] + "' for " + str(problem["points"]) + " points.\n")
-                    else:
-                      requestHandler.writeString("You've already solved this one.\n")
+              if "flags" in week:
+                # Headless Flags
+                for flag in week["flags"].keys():
+                  if flag == args[1]:
+                    with open('solves.json') as solves_file:
+                      solves = json.load(solves_file)
+                      if not week["name"] in solves:
+                        solves[week["name"]] = {}
+                      if not flag in solves[week["name"]]:
+                        solves[week["name"]][flag] = []
+                      if not user in solves[week["name"]][flag]:
+                        solves[week["name"]][flag].append(user)
+                        players[user]["points"] += week["flags"][flag]
+                        if "journey_points" not in players[user]:
+                          players[user]["journey_points"] = 0
+                        players[user]["journey_points"] += week["flags"][flag]
+                        with open('players.json', 'w') as players_out:
+                          with open('solves.json', 'w') as solves_out:
+                            json.dump(players, players_out)
+                            json.dump(solves, solves_out)
+                            requestHandler.writeString("Congratulations, you have earned " + str(week["flags"][flag]) + " points.\n")
+                      else:
+                        requestHandler.writeString("You've already solved this one.\n")
+              # Jeopardy Flags
+              if "problens" in week:
+                for problem in week["problems"]:
+                  if problem["flag"] == args[1]:
+                    with open('solves.json') as solves_file:
+                      solves = json.load(solves_file)
+                      if not week["name"] in solves:
+                        solves[week["name"]] = {}
+                      if not problem["name"] in solves[week["name"]]:
+                        solves[week["name"]][problem["name"]] = []
+                      if not user in solves[week["name"]][problem["name"]]:
+                        solves[week["name"]][problem["name"]].append(user)
+                        players[user]["points"] += problem["points"]
+                        with open('players.json', 'w') as players_out:
+                          with open('solves.json', 'w') as solves_out:
+                            json.dump(players, players_out)
+                            json.dump(solves, solves_out)
+                            requestHandler.writeString("Congratulations, you have solved '" + problem["name"] + "' for " + str(problem["points"]) + " points.\n")
+                      else:
+                        requestHandler.writeString("You've already solved this one.\n")
 
     elif args[0] == "scoreboard" or args[0] == "score":
       requestHandler.writeString(
@@ -111,6 +136,43 @@ class PlayerMenu():
                 display_name = env[player_name]["name"]
               string += "* " + str(i + 1) + ". " + display_name + " - " + str(player["points"]) + "\n"
               break
+
+        requestHandler.writeString(
+          string + "\n"
+        )
+    elif args[0] == "journey" or args[0] == "j":
+      requestHandler.writeString(
+          "====================\n"
+        + " Journey Scoreboard \n"
+        + "====================\n"
+      )
+      with open('players.json') as json_file:
+        players = json.load(json_file)
+        sorted_list = sorted(players, key=lambda k: players[k]["points"], reverse=True)
+        string = ""
+
+        written = 0
+        with open('env.json') as json_file:
+          env = json.load(json_file)
+          for i, player_name in enumerate(sorted_list):
+            player = players[player_name]
+            if player_name == user:
+              display_name = "<anonymous>"
+              points = (player["journey_points"] if "journey_points" in player else 0)
+              if player_name in env and "name" in env[player_name] and env[player_name] != "":
+                display_name = env[player_name]["name"]
+              string += "* " + str(i + 1) + ". " + display_name + " - " + str(points) + "\n"
+              if written > 20:
+                break
+            elif written < 20:
+              display_name = "<anonymous>"
+              if not "journey_points" in player:
+                continue
+              if player_name in env and "name" in env[player_name] and env[player_name] != "":
+                display_name = env[player_name]["name"]
+              string += ("* " if player_name == user else "") \
+                + str(i + 1) + ". " + display_name + " - " + str(player["journey_points"]) + "\n"
+              written += 1
 
         requestHandler.writeString(
           string + "\n"
@@ -162,5 +224,5 @@ class PlayerMenu():
     elif args[0] == "help" or args[0] == 'h':
       requestHandler.writeString(
         "You are logged into the lab portal.\n"
-          + "Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], env, logout, c[lear], q[uit]]\n"
+          + "Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], [j]ourney, env, logout, c[lear], q[uit]]\n"
       )

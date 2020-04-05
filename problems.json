@@ -1,1 +1,25 @@
-[{"name": "Week 1", "problems": [{"name": "Grep is your friend", "description": "Connect to this SSH server and find the flag!", "points": 100, "flag": "flag{12345}"}, {"name": "Name that file!", "description": "What's going on at 0.0.0.0:25565?", "points": 200, "flag": "flag{98765}"}, {"name": "Lockbox", "description": "Crack the lock", "points": 300, "flag": "flag{55555}"}]}]
+[{
+  "name": "Week 1",
+  "problems": [{
+    "name": "Grep is your friend",
+    "description": "Connect to this SSH server and find the flag!",
+    "points": 100,
+    "flag": "flag{12345}"
+  }, {
+    "name": "Name that file!",
+    "description": "What's going on at 0.0.0.0:25565?",
+    "points": 200,
+    "flag": "flag{98765}"
+  }, {
+    "name": "Lockbox",
+    "description": "Crack the lock",
+    "points": 300,
+    "flag": "flag{55555}"
+  }]
+},
+{
+  "name": "Week 100",
+  "flags": {
+    "flag{open_s0urce_int3ligent}": 300
+  }
+}]

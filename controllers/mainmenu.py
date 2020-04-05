@@ -22,7 +22,7 @@ class MainMenu():
           players = json.load(json_file)
           if password in players:
             requestHandler.writeString("Welcome back!\n")
-            requestHandler.writeString("Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], env, logout, c[lear], q[uit]]\n")
+            requestHandler.writeString("Available commands: [p[roblems] [week] [100, 200, 300], f[lag] [flag], score[board], j[ourney], env, logout, c[lear], q[uit]]\n")
             while True:
               command = controllers.player.PlayerMenu().handle(requestHandler, password)
               if command == "quit" or command == 'q' or command == "logout":
