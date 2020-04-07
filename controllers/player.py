@@ -3,6 +3,7 @@ import json
 import controllers.ModelSingleton
 import os
 import subprocess
+from datetime import datetime
 
 class PlayerMenu():
 
@@ -81,6 +82,7 @@ class PlayerMenu():
                         if "journey_points" not in players[user]:
                           players[user]["journey_points"] = 0
                         players[user]["journey_points"] += week["flags"][flag]
+                        players[user]["last_solve"] = datetime.now().time()
                         with open('players.json', 'w') as players_out:
                           with open('solves.json', 'w') as solves_out:
                             json.dump(players, players_out)
