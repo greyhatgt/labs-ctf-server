@@ -5,9 +5,11 @@ import controllers.player
 class MainMenu():
 
   def handle(self, requestHandler):
+    print(555555555)
     data = requestHandler.rfile.readline()[:-1].decode("utf-8")
     args = data.split(" ")
     if args[0] == "login" or args[0] == 'l':
+      print(133)
       password = ""
       if len(args) > 1:
         password = args[1]
@@ -16,6 +18,7 @@ class MainMenu():
           "Login page (not secure)\n"
           + "> Enter your password.\n"
         )
+        print(111)
         password = requestHandler.rfile.readline()[:-1].decode("utf-8")
         print(password)
       with open('players.json') as json_file:

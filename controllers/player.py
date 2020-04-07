@@ -82,7 +82,8 @@ class PlayerMenu():
                         if "journey_points" not in players[user]:
                           players[user]["journey_points"] = 0
                         players[user]["journey_points"] += week["flags"][flag]
-                        players[user]["last_solve"] = datetime.now().time()
+                        time = datetime.now()
+                        players[user]["last_solve"] = int(time.strftime("%s"))
                         with open('players.json', 'w') as players_out:
                           with open('solves.json', 'w') as solves_out:
                             json.dump(players, players_out)
